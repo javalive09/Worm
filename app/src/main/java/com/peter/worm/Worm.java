@@ -3,12 +3,15 @@ package com.peter.worm;
 import java.util.Random;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.LinearGradient;
 import android.graphics.Paint;
 import android.graphics.Shader.TileMode;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
@@ -38,6 +41,7 @@ public class Worm extends SurfaceView implements SurfaceHolder.Callback,Runnable
 	public final int DIR_DOWN = 1;
 	public final int DIR_LEFT = 2;
 	public final int DIR_RIGHT = 3;
+	Bitmap scaled;
 	
 	Random random = new Random();
     private final int[] COLOR = {0xFFFF0000, 0xFF00FF00, 0xFFFFFF00, 0xFFFF00FF, 
@@ -60,13 +64,24 @@ public class Worm extends SurfaceView implements SurfaceHolder.Callback,Runnable
 		cell = getContext().getResources().getDimensionPixelOffset(R.dimen.cell);
 	}
 
+	public String getWormScore() {
+		return wormNum - 6 + "";
+	}
+
 	public void startAnimation(Animation animation) {   
 		super.startAnimation(animation); 
 	}    
 
 	public void surfaceCreated(SurfaceHolder holder) {
 		ScreenW = this.getWidth();
-		ScreenH = this.getHeight(); 
+		ScreenH = this.getHeight();
+
+		Bitmap background = BitmapFactory.decodeResource(getResources(), R.drawable.bg1);
+		float scale = (float)background.getHeight()/(float)getHeight();
+		int newWidth = Math.round(background.getWidth()/scale);
+		int newHeight = Math.round(background.getHeight()/scale);
+		scaled = Bitmap.createScaledBitmap(background, newWidth, newHeight, true);
+
 		initinate();
 		new Thread(this).start(); 
 	}
@@ -90,11 +105,12 @@ public class Worm extends SurfaceView implements SurfaceHolder.Callback,Runnable
 	private void clearScrean(){
 //		RadialGradient rg = new RadialGradient(ScreenW/2, ScreenH/2, ScreenH, 0xFFAAAAAA,Color.BLACK, TileMode.CLAMP);
 //		paint.setShader(rg);
-		paint.setShader(null);
-		paint.setColor(Color.GRAY);
-		canvas.drawRect(0, 0, ScreenW, ScreenH, paint);
+//		paint.setShader(null);
+//		paint.setColor(Color.GRAY);
+//		canvas.drawRect(0, 0, ScreenW, ScreenH, paint);
+		canvas.drawBitmap(scaled, 0, 0, null);
 	}
-	
+
 	private void paint() { 
 		canvas = sfh.lockCanvas();   
 		clearScrean();
@@ -117,7 +133,9 @@ public class Worm extends SurfaceView implements SurfaceHolder.Callback,Runnable
 		int x1 = ScreenW/3;
 		int y1 = (ScreenH-ScreenW/3)/2;
 		paint.setColor(Color.RED);
-		paint.setTextSize(25);
+		float size = TypedValue.applyDimension(
+				TypedValue.COMPLEX_UNIT_SP, 25, getResources().getDisplayMetrics());
+		paint.setTextSize(size);
 		canvas.drawText("Game over !", x1, y1+x1/2, paint);
 	}
 	

@@ -1,0 +1,29 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <style name="WormTheme" parent="@style/AppBaseTheme" />
+
+    <style name="AppBaseTheme" parent="Theme.AppCompat">
+
+        <item name="colorPrimary">@color/titlebar</item>
+        <item name="colorPrimaryDark">@color/titlebar</item>
+        <item name="colorAccent">@color/titlebar</item>
+        
+        <item name="android:dropDownListViewStyle">@style/PopupMenuListView</item>
+        <item name="dropDownListViewStyle">@style/PopupMenuListView</item>
+    </style>
+
+   <!-- OverFlow menu Styles -->
+		<style name="PopupMenuListView" parent="@style/Widget.AppCompat.Light.ListView.DropDown">
+        <item name="android:divider">#000000</item>
+        <item name="android:dividerHeight">1px</item>
+        <item name="android:background">@color/titlebar</item>
+	</style>
+
+    <style name="AppCompatAlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">#FFCC00</item>
+        <item name="android:minEms">9</item>
+        <item name="android:textColorPrimary">#FFFFFF</item>
+        <item name="android:background">@color/titlebar</item>
+    </style>
+
+</resources>

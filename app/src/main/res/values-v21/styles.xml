@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="WormTheme" parent="@style/AppBaseTheme">
+        
+	<item name="android:navigationBarColor">@color/titlebar</item>
+	<item name="android:statusBarColor">@color/statusbar</item>
+    </style>
+
+
+</resources>

@@ -6,8 +6,8 @@
     <string name="menu_mode">模式</string>
     <string name="menu_score">分数</string>
 
-    <string name="about_title">作者</string>
-    <string name="about_text">peter</string>
+    <string name="about_title">关于</string>
+    <string name="about_text">这是一个可以使用重力感应或触摸操控的贪食蛇游戏。</string>
     <string name="about_sure">确定</string>
 
     <string name="paly_title">提示</string>

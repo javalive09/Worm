@@ -251,4 +251,9 @@
     </style>
     <style name="Platform.ThemeOverlay.AppCompat.Dark"/>
     <style name="Platform.ThemeOverlay.AppCompat.Light"/>
+    <style name="WormTheme" parent="@style/AppBaseTheme">
+        
+	<item name="android:navigationBarColor">@color/titlebar</item>
+	<item name="android:statusBarColor">@color/statusbar</item>
+    </style>
 </resources>
