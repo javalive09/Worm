@@ -18,7 +18,7 @@ import android.view.ViewConfiguration;
 
 import java.lang.reflect.Field;
 
-public class main extends AppCompatActivity {
+public class Main extends AppCompatActivity {
 
     private SensorManager mManager = null;
     private Sensor mSensor = null;

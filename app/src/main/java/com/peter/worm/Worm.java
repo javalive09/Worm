@@ -15,6 +15,7 @@ import android.util.TypedValue;
 import android.view.MotionEvent;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
+import android.view.ViewConfiguration;
 import android.view.animation.Animation;
 
 public class Worm extends SurfaceView implements SurfaceHolder.Callback,Runnable {
@@ -41,7 +42,10 @@ public class Worm extends SurfaceView implements SurfaceHolder.Callback,Runnable
 	public final int DIR_DOWN = 1;
 	public final int DIR_LEFT = 2;
 	public final int DIR_RIGHT = 3;
-	Bitmap scaled;
+	private Bitmap scaled;
+	private int mTouchSlop;
+	private float startX = 0;
+	private float startY = 0;
 	
 	Random random = new Random();
     private final int[] COLOR = {0xFFFF0000, 0xFF00FF00, 0xFFFFFF00, 0xFFFF00FF, 
@@ -62,6 +66,7 @@ public class Worm extends SurfaceView implements SurfaceHolder.Callback,Runnable
 		paint = new Paint();
 		paint.setAntiAlias(true);
 		cell = getContext().getResources().getDimensionPixelOffset(R.dimen.cell);
+		mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop() * 3;
 	}
 
 	public String getWormScore() {
@@ -250,29 +255,41 @@ public class Worm extends SurfaceView implements SurfaceHolder.Callback,Runnable
 			}
 		} 
 	}
-	
+
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
-		if(gravityCnotrol ) return false;
-		if(event.getAction() == MotionEvent.ACTION_DOWN){
-			if(canGo && go){
-				if(direction == DIR_RIGHT ||direction == DIR_LEFT){
-					if(event.getY() > worm[0 * 3 + 1] + cell ){
-						direction = DIR_DOWN;
-					}else if(event.getY() < worm[0 * 3 + 1] ){
-						direction = DIR_UP;
-					}
-				}else if(direction == DIR_UP ||direction == DIR_DOWN){
-					if(event.getX() > worm[0 * 3 + 0] + cell ){
-						direction = DIR_RIGHT;
-					}else if(event.getX() < worm[0 * 3 + 0] ){
-						direction = DIR_LEFT;
+		if(gravityCnotrol) return false;
+		switch (event.getAction()) {
+			case MotionEvent.ACTION_DOWN:
+				startX = event.getX();
+				startY = event.getY();
+				break;
+			case MotionEvent.ACTION_UP:
+				float currentX = event.getX();
+				float currentY = event.getY();
+				float deltaX = currentX - startX;
+				float deltaY = currentY - startY;
+				float absDeltaX = Math.abs(deltaX);
+				float absDeltaY = Math.abs(deltaY);
+
+				if(absDeltaX > mTouchSlop || absDeltaY > mTouchSlop) {
+					if(absDeltaX > absDeltaY) {// x
+						if(deltaX < 0) {//left
+							direction = DIR_LEFT;
+						}else {
+							direction = DIR_RIGHT;
+						}
+					}else {//Y
+						if(deltaY < 0) { //top
+							direction = DIR_UP;
+						}else {
+							direction = DIR_DOWN;
+						}
 					}
 				}
-				canGo = false;
-			}
-			
+				break;
 		}
+
 		return true;
 	}
 	

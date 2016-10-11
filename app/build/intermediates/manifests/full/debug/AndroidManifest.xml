@@ -12,7 +12,7 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name" >
         <activity
-            android:name="com.peter.worm.main"
+            android:name="com.peter.worm.Main"
             android:label="@string/app_name"
             android:screenOrientation="portrait"
             android:theme="@style/WormTheme" >
